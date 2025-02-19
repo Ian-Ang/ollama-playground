@@ -7,6 +7,8 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
 
+Ollama_Api_Url = "http://192.168.1.216:8081" # Ollama is not on the same server as streamlit
+
 template = """
 You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
 Question: {question} 
@@ -16,10 +18,10 @@ Answer:
 
 pdfs_directory = 'chat-with-pdf/pdfs/'
 
-embeddings = OllamaEmbeddings(model="deepseek-r1:14b")
+embeddings = OllamaEmbeddings(model="deepseek-r1:14b", base_url=Ollama_Api_Url)
 vector_store = InMemoryVectorStore(embeddings)
 
-model = OllamaLLM(model="deepseek-r1:14b")
+model = OllamaLLM(model="deepseek-r1:14b", base_url=Ollama_Api_Url)
 
 def upload_pdf(file):
     with open(pdfs_directory + file.name, "wb") as f:
